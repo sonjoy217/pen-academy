@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>PEN Academy | Learn Penetration Testing</title>
+    <meta name="title" content="PEN Academy | Student Portal">
+    <meta name="description" content="পেন একাডেমি: সাইবার সিকিউরিটি এবং পেনিট্রেশন টেস্টিং শেখার একটি নির্ভরযোগ্য প্ল্যাটফর্ম।">
+    <meta name="keywords" content="Pen Academy, Penetration Testing, Cyber Security, Ethical Hacking, Learning Platform">
+    <meta name="author" content="Sonjoy Barmon">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pen-academy.vercel.app/">
+    <meta property="og:title" content="PEN Academy | Student Portal">
+    <meta property="og:description" content="সাইবার সিকিউরিটি এবং এথিক্যাল হ্যাকিং শেখার যাত্রা শুরু হোক এখান থেকেই।">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pen-academy.vercel.app/">
+    <meta property="twitter:title" content="PEN Academy | Student Portal">
+    <meta property="twitter:description" content="পেন একাডেমি: পেনিট্রেশন টেস্টিং শেখার একটি আধুনিক প্ল্যাটফর্ম।">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ff88;
+            --secondary: #2f81f7;
+            --bg-dark: #06090f;
+            --card-bg: #0d1117;
+            --text: #c9d1d9;
+            --border: #30363d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text); scroll-behavior: smooth; }
+
+        /* --- Navigation --- */
+        nav {
+            background: rgba(6, 9, 15, 0.95);
+            padding: 1rem 5%;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: fixed; 
+            width: 100%; 
+            top: 0; 
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); cursor: pointer; }
+        .nav-links { display: none; list-style: none; gap: 20px; }
+        .nav-links li a { color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500; cursor: pointer; }
+        .nav-links li a:hover { color: var(--primary); }
+
+        .auth-btns { display: flex; gap: 10px; }
+
+        /* --- Hero Section --- */
+        #landing-page {
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover; 
+            background-position: center;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+        }
+
+        #landing-page h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--primary);
+        }
+
+        /* --- Components --- */
+        .btn-green { background: var(--primary); color: #000; padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+        .btn-green:hover { opacity: 0.9; }
+        
+        .section-padding { padding: 100px 5% 60px; }
+        .hidden { display: none !important; }
+        
+        .profile-card { background: #161b22; padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .info-box { background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; line-height: 1.7; margin-bottom: 20px; }
+        .highlight { color: var(--primary); font-weight: bold; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 25px; }
+        .course-card { background: var(--card-bg); border: 1px solid var(--border); padding: 25px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+        .course-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+
+        /* --- LMS Viewer --- */
+        #lms-viewer {
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: var(--bg-dark); 
+            z-index: 9000; 
+            grid-template-columns: 280px 1fr;
+        }
+        .lms-sidebar { background: var(--card-bg); border-right: 1px solid var(--border); padding: 20px; overflow-y: auto; }
+        .lms-body { padding: 40px 20px; overflow-y: auto; }
+        .lesson-link { padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer; display: block; }
+        .lesson-link:hover { color: var(--primary); }
+        .command-box { background: #000; color: var(--primary); padding: 15px; border-radius: 5px; font-family: monospace; margin: 10px 0; border: 1px solid #222; word-break: break-all; }
+
+        /* --- Modals --- */
+        .modal { display: none; position: fixed; z-index: 5000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); overflow-y: auto; padding: 20px 10px; }
+        .modal-content { background: var(--card-bg); margin: 10% auto; padding: 25px; width: 100%; max-width: 400px; border-radius: 15px; border: 1px solid var(--border); }
+        input { width: 100%; padding: 12px; margin: 8px 0 15px 0; background: #161b22; border: 1px solid var(--border); color: #fff; border-radius: 8px; outline: none; }
+
+        /* --- Mobile & Tablet Responsive Media Queries --- */
+        @media (max-width: 768px) {
+            nav { padding: 0.8rem 5%; }
+            .nav-links { gap: 12px; }
+            .nav-links li a { font-size: 0.8rem; }
+            
+            #lms-viewer {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+            .lms-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding: 15px; }
+            .lms-body { padding: 20px 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .logo { font-size: 1.2rem; }
+            .btn-green { padding: 8px 14px; font-size: 0.85rem; }
+            .modal-content { margin: 20% auto; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="location.reload()">PEN ACADEMY</div>
+        <ul class="nav-links" id="navMenu">
+            <li><a onclick="showView('home')">Home</a></li>
+            <li><a onclick="showView('courses')">Courses</a></li>
+            <li><a onclick="showView('about')">About Us</a></li>
+            <li><a onclick="showView('contact')">Contact Us</a></li>
+        </ul>
+        <div id="authSection" class="auth-btns">
+            <button class="btn-green" onclick="showModal('loginMod')">Login</button>
+            <button class="btn-green btn-outline" onclick="showModal('regMod')">Register</button>
+        </div>
+    </nav>
+
+    <!-- Modals -->
+    <div id="regMod" class="modal">
+        <div class="modal-content">
+            <h2 style="color:var(--primary); margin-bottom:15px;">Register</h2>
+            <input type="text" id="rName" placeholder="Full Name">
+            <input type="text" id="rUni" placeholder="University">
+            <input type="text" id="rAim" placeholder="Aim">
+            <input type="email" id="rEmail" placeholder="Email">
+            <input type="password" id="rPass" placeholder="Password">
+            <button class="btn-green" style="width:100%; margin-top:10px;" onclick="doRegister()">Register</button>
+            <p onclick="hideModal('regMod')" style="text-align:center; margin-top:15px; cursor:pointer; font-size:0.8rem; color:#aaa;">Back</p>
+        </div>
+    </div>
+
+    <div id="loginMod" class="modal">
+        <div class="modal-content">
+            <h2 style="color:var(--primary); margin-bottom:15px;">Login</h2>
+            <input type="email" id="lEmail" placeholder="Email">
+            <input type="password" id="lPass" placeholder="Password">
+            <button class="btn-green" style="width:100%; margin-top:10px;" onclick="doLogin()">Login</button>
+            <p onclick="hideModal('loginMod')" style="text-align:center; margin-top:15px; cursor:pointer; font-size:0.8rem; color:#aaa;">Back</p>
+        </div>
+    </div>
+
+    <!-- 1. Landing Page -->
+    <div id="landing-page">
+        <h1>Hey! Upcoming Pen Tester.</h1>
+        <p style="color: #aaa; margin-top: 10px;">The road to ethical hacking starts here.</p>
+        <button class="btn-green" style="margin-top:30px;" onclick="showModal('regMod')">Start Journey</button>
+    </div>
+
+    <!-- 2. Dashboard Sections -->
+    <div id="dashboard-page" class="hidden section-padding">
+        
+        <!-- Permanent Student Info Header -->
+        <div class="profile-card">
+            <h2 id="pName">Student Name</h2>
+            <p id="pUser" style="color:var(--primary)">@username</p>
+            <p id="pUni" style="font-size:0.9rem; color:#888;">University</p>
+            <p id="pAim" style="margin-top:10px; font-weight:bold;">Aim: Cybersecurity Expert</p>
+        </div>
+
+        <!-- Home View: Overview -->
+        <div id="home-view">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">What is Penetration Testing?</h2>
+            <div class="info-box">
+                <p>Penetration Testing (or Pen Testing) is a <span class="highlight">legal and authorized cyberattack</span> performed on a computer system to find security vulnerabilities. It follows a systematic process:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><span class="highlight">Reconnaissance:</span> Gathering data about the target.</li>
+                    <li><span class="highlight">Scanning:</span> Identifying open ports and services.</li>
+                    <li><span class="highlight">Exploitation:</span> Gaining access to the system.</li>
+                    <li><span class="highlight">Reporting:</span> Documenting findings to fix security gaps.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Courses View -->
+        <div id="courses-view" class="hidden">
+            <h2 style="border-left: 4px solid var(--primary); padding-left: 15px;">Available Courses</h2>
+            <div class="grid">
+                <div class="course-card" onclick="startCourse('Nmap')">
+                    <i class="fas fa-search" style="font-size:2rem; color:var(--primary)"></i>
+                    <h4 style="margin-top:15px;">Nmap Basics</h4>
+                    <p style="font-size:0.85rem; color:#666;">Network scanning & reconnaissance.</p>
+                </div>
+                <div class="course-card" onclick="startCourse('Metasploit')">
+                    <i class="fas fa-biohazard" style="font-size:2rem; color:#ff4444"></i>
+                    <h4 style="margin-top:15px;">Metasploit</h4>
+                    <p style="font-size:0.85rem; color:#666;">Framework for exploitation.</p>
+                </div>
+                <div class="course-card" onclick="startCourse('Wireshark')">
+                    <i class="fas fa-ethernet" style="font-size:2rem; color:#2f81f7"></i>
+                    <h4 style="margin-top:15px;">Wireshark</h4>
+                    <p style="font-size:0.85rem; color:#666;">Packet analysis & sniffing.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- About View -->
+        <div id="about-view" class="hidden">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">About Us</h2>
+            <div class="info-box">
+                Welcome to our penetration testing learning platform. We provide beginner-friendly resources to help you understand ethical hacking, cybersecurity basics, and real-world security practices. Our goal is to guide students and aspiring professionals in building strong skills.
+            </div>
+        </div>
+
+        <!-- Contact View -->
+        <div id="contact-view" class="hidden">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">Contact Us</h2>
+            <div class="info-box">
+                <p><i class="fas fa-envelope highlight"></i> sonjoybarmon217@gmail.com</p>
+                <p><i class="fas fa-phone highlight"></i> 017xxxxxxx</p>
+                <p><i class="fas fa-map-marker-alt highlight"></i> Tejgaon, Dhaka, Bangladesh</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. LMS Viewer -->
+    <div id="lms-viewer">
+        <div class="lms-sidebar">
+            <button onclick="closeLMS()" style="background:none; border:none; color:var(--primary); cursor:pointer; margin-bottom:15px; font-weight:bold;">← Exit Course</button>
+            <h2 id="lms-title" style="color:var(--primary);">Course</h2>
+            <div id="lesson-list" style="margin-top:15px;"></div>
+        </div>
+        <div class="lms-body">
+            <div id="lms-content"><h1>Select a lesson.</h1></div>
+        </div>
+    </div>
+
+    <script>
+        const courseData = {
+            'Nmap': {
+                intro: "Nmap is used for network discovery and security auditing.",
+                basic: ["nmap 192.168.1.1", "nmap -sP 192.168.1.0/24"],
+                advanced: ["nmap -sS -p- -T4 192.168.1.1"]
+            },
+            'Metasploit': {
+                intro: "The most used penetration testing framework in the world.",
+                basic: ["msfconsole", "search eternalblue"],
+                advanced: ["exploit -j", "sessions -i 1"]
+            },
+            'Wireshark': {
+                intro: "A network protocol analyzer for deep packet inspection.",
+                basic: ["ip.addr == 192.168.1.1", "http"],
+                advanced: ["tcp.flags.syn == 1", "http.request.method == POST"]
+            }
+        };
+
+        function showModal(id) { document.getElementById(id).style.display = 'block'; }
+        function hideModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        // LocalStorage এ ইউজারদের তালিকা থেকে তথ্য খোঁজার হেল্পার ফাংশন
+        function getUsersDB() {
+            return JSON.parse(localStorage.getItem('pen_academy_users')) || [];
+        }
+
+        function doRegister() {
+            const name = document.getElementById('rName').value.trim();
+            const uni = document.getElementById('rUni').value.trim();
+            const aim = document.getElementById('rAim').value.trim();
+            const email = document.getElementById('rEmail').value.trim();
+            const pass = document.getElementById('rPass').value.trim();
+
+            if(!name || !email || !pass) {
+                alert("Please fill in required fields (Name, Email, Password)");
+                return;
+            }
+
+            let users = getUsersDB();
+            
+            // চেক করা হচ্ছে ইমেইল আগে থেকেই আছে কিনা
+            if(users.some(u => u.email === email)) {
+                alert("This email is already registered! Please Login.");
+                hideModal('regMod');
+                showModal('loginMod');
+                return;
+            }
+
+            const newUser = {
+                name: name,
+                uni: uni || "Not specified",
+                aim: aim || "Cybersecurity Expert",
+                email: email,
+                user: "@" + (email.split('@')[0] || "user"),
+                pass: pass
+            };
+
+            users.push(newUser);
+            // LocalStorage এ সেভ করা হচ্ছে
+            localStorage.setItem('pen_academy_users', JSON.stringify(users));
+
+            alert("Registration Successful! Now Login.");
+            hideModal('regMod');
+                showModal('loginMod');
+        }
+
+        function doLogin() {
+            const email = document.getElementById('lEmail').value.trim();
+            const pass = document.getElementById('lPass').value.trim();
+            
+            const users = getUsersDB();
+            const user = users.find(u => u.email === email && u.pass === pass);
+
+            if(user) {
+                // লগইন সফল হলে প্রোফাইল ডেটা সেট করা
+                document.getElementById('pName').innerText = user.name;
+                document.getElementById('pUser').innerText = user.user;
+                document.getElementById('pUni').innerText = user.uni;
+                document.getElementById('pAim').innerText = "Aim: " + user.aim;
+                
+                document.getElementById('landing-page').classList.add('hidden');
+                document.getElementById('dashboard-page').classList.remove('hidden');
+                document.getElementById('navMenu').style.display = 'flex';
+                document.getElementById('authSection').innerHTML = `<button class="btn-green" onclick="location.reload()">Logout</button>`;
+                hideModal('loginMod');
+                showView('home');
+            } else { 
+                alert("Invalid Email or Password!"); 
+            }
+        }
+
+        function showView(viewId) {
+            const views = ['home-view', 'courses-view', 'about-view', 'contact-view'];
+            views.forEach(v => document.getElementById(v).classList.add('hidden'));
+            document.getElementById(viewId + '-view').classList.remove('hidden');
+        }
+
+        function startCourse(name) {
+            document.getElementById('lms-viewer').style.display = 'grid';
+            document.getElementById('lms-title').innerText = name;
+            document.getElementById('lesson-list').innerHTML = `
+                <div class="lesson-link" onclick="loadLesson('${name}', 'intro')">1. Introduction</div>
+                <div class="lesson-link" onclick="loadLesson('${name}', 'basic')">2. Basic Commands</div>
+                <div class="lesson-link" onclick="loadLesson('${name}', 'advanced')">3. Advanced Commands</div>
+            `;
+            loadLesson(name, 'intro');
+        }
+
+        function loadLesson(course, type) {
+            const data = courseData[course];
+            const content = document.getElementById('lms-content');
+            if(type === 'intro') {
+                content.innerHTML = `<h1>${course}</h1><p style="margin-top:15px; color:#aaa;">${data.intro}</p>`;
+            } else {
+                let cmds = data[type].map(c => `<div class="command-box"># ${c}</div>`).join('');
+                content.innerHTML = `<h1>${type.toUpperCase()} Commands</h1><div style="margin-top:15px;">${cmds}</div>`;
+            }
+        }
+
+        function closeLMS() { document.getElementById('lms-viewer').style.display = 'none'; }
+    </script>
+</body>
+</html>
